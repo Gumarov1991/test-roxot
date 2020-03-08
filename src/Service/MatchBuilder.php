@@ -89,6 +89,7 @@ class MatchBuilder
             switch ($event['type']) {
                 case 'startPeriod':
                     $period++;
+                    $minute = 0;
 
                     $players = $details['team1']['startPlayerNumbers'] ?? [];
                     if (count($players)) {
