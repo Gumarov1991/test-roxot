@@ -121,6 +121,14 @@
                         </td>
                         <td>
                             {{ player.name }}
+                            {% if player.isScoredGoal %}
+                                <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/goal.png">
+                            {% endif %}
+                            {% if 'red' in player.cards %}
+                                <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/yellow_red.png">
+                            {% elseif 'yellow' in player.cards %}
+                                <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/card.png">
+                            {% endif %}
                         </td>
                         <td>
                             {{ player.playTime }}’
