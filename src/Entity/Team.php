@@ -13,6 +13,7 @@ class Team
     private array $players;
     private string $coach;
     private int $goals;
+    private array $timeOnFieldPositions;
 
     public function __construct(string $name, string $country, string $logo, array $players, string $coach)
     {
@@ -24,6 +25,7 @@ class Team
         $this->players = $players;
         $this->coach = $coach;
         $this->goals = 0;
+        $this->timeOnFieldPositions = [];
     }
 
     public function getName(): string
@@ -88,6 +90,21 @@ class Team
         return $this->goals;
     }
 
+    public function getTimeOnFieldPositions(): array
+    {
+        $result = [
+            'В' => 0,
+            'З' => 0,
+            'П' => 0,
+            'Н' => 0
+        ];
+
+        foreach ($this->players as $player) {
+            $result[$player->getPosition()] += $player->getPlayTime();
+        }
+
+        return $result;
+    }
 
     private function assertCorrectPlayers(array $players)
     {
@@ -103,4 +120,6 @@ class Team
             }
         }
     }
+
+
 }

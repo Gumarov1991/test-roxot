@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
 
     <title>{{ match.tournament }} || {{ match.homeTeam.name }} – {{ match.awayTeam.name }}</title>
@@ -52,7 +53,40 @@
                     </div>
                 </div>
             </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    Общее проведенное время на поле по позииям
+                </div>
+                <div class="card-body">
+                    <div class="row">
 
+                        <div class="col-md-6">
+                            <div class="card-header">
+                                {% set team = match.homeTeam %}
+                                {{ team.name }}
+                            </div>
+                            <div class="card-body">
+                                <p>Вратарь: {{ team.timeOnFieldPositions['В'] }}’</p>
+                                <p>Защитники: {{ team.timeOnFieldPositions['З'] }}’</p>
+                                <p>Полузащитники: {{ team.timeOnFieldPositions['П'] }}’</p>
+                                <p>Нападающие: {{ team.timeOnFieldPositions['Н'] }}’</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-header">
+                                {% set team = match.awayTeam %}
+                                {{ team.name }}
+                            </div>
+                            <div class="card-body">
+                                <p>Вратарь: {{ team.timeOnFieldPositions['В'] }}’</p>
+                                <p>Защитники: {{ team.timeOnFieldPositions['З'] }}’</p>
+                                <p>Полузащитники: {{ team.timeOnFieldPositions['П'] }}’</p>
+                                <p>Нападающие: {{ team.timeOnFieldPositions['Н'] }}’</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     Трансляция
