@@ -1,4 +1,4 @@
-![](https://github.com/Gumarov1991/test-roxot/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202020-03-08%2020-18-33.png)
+![](https://github.com/Gumarov1991/test-roxot/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202020-03-10%2019-29-33.png)
 # Тестовое задание для junior php разработчика
 ## ФИО
 Гумаров Альберт Сергеевич
