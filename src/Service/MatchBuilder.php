@@ -82,6 +82,11 @@ class MatchBuilder
     private function processLogs(Match $match, array $logs): void
     {
         $period = 0;
+        $pastPeriodPlayers = [
+            'team1' => [],
+            'team2' => [],
+        ];
+
         foreach ($logs as $event) {
             $minute = $event['time'];
             $details = $event['details'];
@@ -89,27 +94,31 @@ class MatchBuilder
             switch ($event['type']) {
                 case 'startPeriod':
                     $period++;
-                    $minute = 0;
+                    if ($period === 0) {
+                        $minute = 0;
+                    }
 
-                    $players = $details['team1']['startPlayerNumbers'] ?? [];
+                    $players = $details['team1']['startPlayerNumbers'] ?? $pastPeriodPlayers['team1'];
                     if (count($players)) {
                         $this->goToPlay($match->getHomeTeam(), $players, $minute);
                     }
-                    $players = $details['team2']['startPlayerNumbers'] ?? [];
+                    $players = $details['team2']['startPlayerNumbers'] ?? $pastPeriodPlayers['team2'];
                     if (count($players)) {
                         $this->goToPlay($match->getAwayTeam(), $players, $minute);
                     }
                     break;
                 case 'finishPeriod':
-                    if ($period === 2) {
-                        $this->goToBenchAllPlayers($match->getHomeTeam(), $minute);
-                        $this->goToBenchAllPlayers($match->getAwayTeam(), $minute);
-                    }
+                    $pastPeriodPlayers['team1'] = $this->generateOnFieldPlayersId($match->getHomeTeam());
+                    $pastPeriodPlayers['team2'] = $this->generateOnFieldPlayersId($match->getAwayTeam());
+
+                    $this->goToBenchAllPlayers($match->getHomeTeam(), $minute);
+                    $this->goToBenchAllPlayers($match->getAwayTeam(), $minute);
+
                     break;
                 case 'replacePlayer':
                     $team = $this->getTeamByName($match, $details['team']);
                     $team->getPlayer($details['inPlayerNumber'])->goToPlay($minute);
-                    $team->getPlayer($details['outPlayerNumber'])->goToBench($minute);
+                    $team->getPlayer($details['outPlayerNumber'])->goToBench($minute, true);
                     break;
                 case 'goal':
                     $team = $this->getTeamByName($match, $details['team']);
@@ -193,5 +202,16 @@ class MatchBuilder
                 $match->getAwayTeam()->getName()
             )
         );
+    }
+
+    private function generateOnFieldPlayersId(Team $team): array
+    {
+        $result = [];
+
+        foreach ($team->getPlayersOnField() as $player) {
+            $result[] = $player->getNumber();
+        }
+
+        return $result;
     }
 }

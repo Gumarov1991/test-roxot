@@ -10,7 +10,7 @@ class Player
     private string $name;
     private string $playStatus;
     private int $inMinute;
-    private int $outMinute;
+    private int $inMatchTime;
     private string $position;
     private bool $isScoredGoal;
     private array $cards;
@@ -22,7 +22,7 @@ class Player
         $this->position = $position;
         $this->playStatus = self::BENCH_PLAY_STATUS;
         $this->inMinute = 0;
-        $this->outMinute = 0;
+        $this->inMatchTime = 0;
         $this->isScoredGoal = false;
         $this->cards = [];
     }
@@ -47,9 +47,9 @@ class Player
         return $this->inMinute;
     }
 
-    public function getOutMinute(): int
+    public function getInMatchTime(): int
     {
-        return $this->outMinute;
+        return $this->inMatchTime;
     }
 
     public function isPlay(): bool
@@ -59,11 +59,7 @@ class Player
 
     public function getPlayTime(): int
     {
-        if(!$this->outMinute) {
-            return 0;
-        }
-
-        return $this->outMinute - $this->inMinute;
+        return $this->inMatchTime;
     }
 
     public function goToPlay(int $minute): void
@@ -72,9 +68,11 @@ class Player
         $this->playStatus = self::PLAY_PLAY_STATUS;
     }
 
-    public function goToBench(int $minute): void
+    public function goToBench(int $minute, bool $isReplace = false): void
     {
-        $this->outMinute = $minute;
+        $extraOneMinute = $isReplace ? 0 : 1;
+
+        $this->inMatchTime += $minute - $this->inMinute + $extraOneMinute;
         $this->playStatus = self::BENCH_PLAY_STATUS;
     }
 
